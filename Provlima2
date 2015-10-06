@@ -1,0 +1,108 @@
+###Σκέφτηκα όμως, να πάρω το C, να το μετατρέψω σε string, και μετά να φτιάξω καινούργιο πίνακα, με τα στοιχεία του
+###string. Ουσιαστικά αυτό που κάνει η __NewTable__, είναι να παίρνει τον πίνακα, να τον κάνει ένα string, το Α, και 
+###μετά Loopάρει σε κάθε γράμμα του Α, και όπου βλέπει ")", δηλαδή εκεί που τελειώνει η λέξη, σταματάει, καταχωρεί
+###την λέξη ως καινούργιο στοιχείο, στον πίνακα MS, ξανακάνει την λέξη κενή, και φτου και από την αρχή,μέχρι το
+###τελευταίο ")", όπου θα τελειώνει και το string. Το πρόβλημα εδώ, είναι ότι δεν μπορώ να κάνω string το C
+
+
+from sage.all import *
+import numpy as np
+import random
+#import sage.all
+
+
+def __SeeTheMatrix__(C):
+    for value in C:
+        output=str(value)
+        print output
+
+
+def __FindAValue__(CodedWord, length,  MS):
+    #CodedWord=CodeWord(word)
+    i=0
+    ThereIs=False
+    #MS=np.array(C).reshape(-1, length)
+    #for value in MS:
+        #output=str(value)
+        #if(output==CodedWord):
+            #print "This word exists and it is in position %s" % (i)
+            #ThereIs=True
+        #i=+1
+    #if ThereIs==False:
+        #print "the word was not found"
+        
+    for value in MS:
+        i=+1
+        if CodedWord==value:
+            print i
+            print value
+    if ThereIs==False:
+        print "the word was not found"
+    
+
+
+def __FindSpotValue___(n,  length,  MS):
+    ThereIs=False
+    i=1
+    for value in MS:
+        if i==n:
+            print value
+            ThereIs=True
+        i=+1
+    if ThereIs==False:
+        print "There is no such spot"
+
+
+def __DecodeWord__(word):
+    #CodedWord=CodeWord(word)
+    C.decode(word)
+    
+def __NewTable__(C):
+    A=''.join(C)
+    word=""
+    MS=[]
+    for letter in A:
+        if letter==')':
+            word=''.join(letter)
+            MS.append(word)
+            word=""
+        else:
+            word=''.join(letter)
+    return MS
+    
+
+def CodeWord(word):
+    CodedWord="("
+    for letter in word:
+        CodedWord = ''.join((letter,', '))
+    CodedWord = CodedWord[:-2]
+    CodedWord = ''.join((CodedWord,')'))
+    return CodedWord
+    
+    
+length=int(raw_input("Give length of linear code"))
+dimention=int(raw_input("Give the dimention"))
+FF=int(raw_input("Give the finite field in which you want to work in"))
+C = codes.ReedSolomonCode(length, dimention, GF(FF, "x"))
+MS=__NewTable__(C)
+print MS
+quit=False
+decide=""
+print "To see the matrix, press S, to Find a Value press FV, to find a spot value press FSV, to Decode a word press D,to quit press Q"
+while quit==False:
+    decide=raw_input()
+    if decide=="S":
+        __SeeTheMatrix__(C)
+    elif decide=="FV":
+        word=str(raw_input("Give a word. It has to be %s characters long and can have characters up to %s"%(length, (FF-1))))
+        __FindAValue__(word,  length,  MS)
+    elif decide=="FSV":
+        n=int(raw_input("Give a spot"))
+        __FindSpotValue___(n,  length,  MS)
+    elif decide=="D":
+        word=raw_input("Give a word. It has to be %s characters long and can have characters up to %s"%(length, (FF-1)))
+        __DecodeWord__(word, MS)
+    elif decide=="Q":
+        quit=True
+    else:
+        print "Give another input"
