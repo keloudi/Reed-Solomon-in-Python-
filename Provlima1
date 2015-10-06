@@ -1,0 +1,85 @@
+###Το πρόβλημά του είναι ότι βλέπει την C ως ότι έχει μόνο μία τιμή. Έτσι για παράδειγμα, στο Find Value, 
+###αν βάλεις π.χ. [0, 4, 6, 1], ακόμα και αν έχεις πατήσει το S να δεις ότι υπάρχει τέτοιο στοιχείο, δεν θα σου βρει 
+###ότι υπάρχει, επειδή βλέπει όλο τον πίνακα, από πάνω μέχρι κάτω, ως ένα στοιχείο.
+###Αντίστοιχα, στην Find Spot Value, αν πατήσεις οποιονδήποτε αριθμό με εξαίρεση το 1, θα σου δείξει ότι δεν υπάρχει
+###κάποιο στοιχείο σε αυτήν την θέση, και αν πατήσεις 1, θα σου εμφανίσει όλο τον πίνακα
+
+from sage.all import *
+import numpy as np
+import random
+#import sage.all
+
+
+def __SeeTheMatrix__(C):
+    for value in C:
+        output=str(value)
+        print output
+
+
+def __FindAValue__(CodedWord, length,  C):
+    #CodedWord=CodeWord(word)
+    i=1
+    ThereIs=False
+    #MS=np.array(C).reshape(-1, length)
+    #for value in MS:
+        #output=str(value)
+        #if(output==CodedWord):
+            #print "This word exists and it is in position %s" % (i)
+            #ThereIs=TrueMS=np.asarray(C)
+        #i=+1
+    #if ThereIs==False:
+        #print "the word was not found"
+    
+
+
+def __FindSpotValue___(n,  length,  C):
+    ThereIs=False
+    i=1
+    MS=np.asarray(C)
+    for value in MS:
+        if i==n:
+            print value
+            ThereIs=True
+        i=+1
+    if ThereIs==False:
+        print "There is no such spot"
+
+
+def __DecodeWord__(word):
+    #CodedWord=CodeWord(word)
+    C.decode(word)
+    
+
+def CodeWord(word):
+    CodedWord="("
+    for letter in word:
+        CodedWord = ''.join((letter,', '))
+    CodedWord = CodedWord[:-2]
+    CodedWord = ''.join((CodedWord,')'))
+    return CodedWord
+    
+    
+length=int(raw_input("Give length of linear code"))
+dimention=int(raw_input("Give the dimention"))
+FF=int(raw_input("Give the finite field in which you want to work in"))
+C = codes.ReedSolomonCode(length, dimention, GF(FF, "x"))
+quit=False
+decide=""
+print "To see the matrix, press S, to Find a Value press FV, to find a spot value press FSV, to Decode a word press D,to quit press Q"
+while quit==False:
+    decide=raw_input()
+    if decide=="S":
+        __SeeTheMatrix__(C)
+    elif decide=="FV":
+        word=str(raw_input("Give a word. It has to be %s characters long and can have characters up to %s"%(length, (FF-1))))
+        __FindAValue__(word,  length,  C)
+    elif decide=="FSV":
+        n=int(raw_input("Give a spot"))
+        __FindSpotValue___(n,  length,  C)
+    elif decide=="D":
+        word=raw_input("Give a word. It has to be %s characters long and can have characters up to %s"%(length, (FF-1)))
+        __DecodeWord__(word, C)
+    elif decide=="Q":
+        quit=True
+    else:
+        print "Give another input"
